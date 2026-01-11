@@ -72,6 +72,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
+  void _nextPage() {
+    if (_currentPage < _pages.length - 1) {
+      _pageController.nextPage(
+        duration: AppTheme.mediumAnimation,
+        curve: AppTheme.softCurve,
+      );
+    }
+  }
+
+  void _previousPage() {
+    if (_currentPage > 0) {
+      _pageController.previousPage(
+        duration: AppTheme.mediumAnimation,
+        curve: AppTheme.softCurve,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,18 +122,96 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               
-              // PageView with animated content
+              // PageView with animated content and navigation arrows
               Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: _onPageChanged,
-                  itemCount: _pages.length,
-                  itemBuilder: (context, index) {
-                    return _OnboardingPageContent(
-                      page: _pages[index],
-                      isActive: index == _currentPage,
-                    );
-                  },
+                child: Stack(
+                  children: [
+                    PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: _onPageChanged,
+                      itemCount: _pages.length,
+                      itemBuilder: (context, index) {
+                        return _OnboardingPageContent(
+                          page: _pages[index],
+                          isActive: index == _currentPage,
+                        );
+                      },
+                    ),
+                    
+                    // Left arrow
+                    if (_currentPage > 0)
+                      Positioned(
+                        left: 16,
+                        top: 0,
+                        bottom: 0,
+                        child: Center(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: _previousPage,
+                              borderRadius: BorderRadius.circular(24),
+                              child: Container(
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.9),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppTheme.pastelTeal.withOpacity(0.2),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_back_ios_new,
+                                  color: AppTheme.textPrimary,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    
+                    // Right arrow
+                    if (_currentPage < _pages.length - 1)
+                      Positioned(
+                        right: 16,
+                        top: 0,
+                        bottom: 0,
+                        child: Center(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: _nextPage,
+                              borderRadius: BorderRadius.circular(24),
+                              child: Container(
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.9),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppTheme.pastelTeal.withOpacity(0.2),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: AppTheme.textPrimary,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
               

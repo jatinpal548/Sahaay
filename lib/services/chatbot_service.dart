@@ -105,10 +105,10 @@ Respond naturally as Sahaay:''';
       // Higher stress = more controlled, lower stress = slightly more creative
       final temperature = stressLevel >= 7 ? 0.8 : (stressLevel >= 4 ? 0.75 : 0.7);
       
-      // Use fewer tokens for faster response (384 tokens = ~300 words)
+      // Use more tokens for complete responses (768 tokens = ~600 words)
       final response = await GeminiService.generateText(
         prompt, 
-        maxTokens: 384, // Reduced for faster response
+        maxTokens: 768, // Increased for fuller responses
         temperature: temperature,
       );
       if (response.isEmpty) {
@@ -286,10 +286,10 @@ Generate a warm, welcoming first message (2-3 sentences). Be natural and human -
       // Use slightly higher temperature for first message to feel more natural
       final temperature = stressLevel >= 7 ? 0.8 : 0.75;
       
-      // Use fewer tokens for faster response
+      // Use more tokens for complete first message
       final response = await GeminiService.generateText(
         prompt, 
-        maxTokens: 256, // Reduced for faster response
+        maxTokens: 512, // Increased for fuller first message
         temperature: temperature,
       );
       if (response.isEmpty) {

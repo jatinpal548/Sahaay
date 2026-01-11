@@ -220,10 +220,18 @@ class _ChatHeader extends StatelessWidget {
                   ),
                   shape: BoxShape.circle,
                 ),
-                child: const Center(
-                  child: Text(
-                    '💙',
-                    style: TextStyle(fontSize: 24),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/images/sahaay_logo.png',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Text(
+                          '💙',
+                          style: TextStyle(fontSize: 24),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

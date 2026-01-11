@@ -28,9 +28,9 @@ class _DashboardScreenState extends State<DashboardScreen>
   late Animation<double> _actionsAnimation;
   late Animation<double> _counselorAnimation;
 
-  // Sample data
-  final String _userName = "Calm Panda";
-  final String _emoji = "🐼";
+  // Sample data - will be replaced with provider data
+  // final String _userName = "Calm Panda";
+  // final String _emoji = "🐼";
 
   @override
   void initState() {
@@ -166,6 +166,13 @@ class _DashboardScreenState extends State<DashboardScreen>
     );
   }
 
+  String _getEmojiFromProfile(String profileName) {
+    if (profileName.contains('Panda')) return '🐼';
+    if (profileName.contains('Fox')) return '🦊';
+    if (profileName.contains('Lion')) return '🦁';
+    return '🐼'; // Default
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,36 +196,40 @@ class _DashboardScreenState extends State<DashboardScreen>
                       const SizedBox(height: 20),
 
                       // SECTION 1: Emotional Identity Card
-                      _EmotionalIdentityCard(
-                        userName: _userName,
-                        emoji: _emoji,
-                        animationValue: _identityAnimation.value,
-                        onSettingsTap: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      const SettingsScreen(),
-                              transitionDuration: AppTheme.slowAnimation,
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return SlideTransition(
-                                  position: Tween<Offset>(
-                                    begin: const Offset(1.0, 0.0),
-                                    end: Offset.zero,
-                                  ).animate(
-                                    CurvedAnimation(
-                                      parent: animation,
-                                      curve: AppTheme.softCurve,
-                                    ),
-                                  ),
-                                  child: FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  ),
-                                );
-                              },
-                            ),
+                      Consumer<StressProvider>(
+                        builder: (context, stressProvider, child) {
+                          return _EmotionalIdentityCard(
+                            userName: stressProvider.profileName,
+                            emoji: _getEmojiFromProfile(stressProvider.profileName),
+                            animationValue: _identityAnimation.value,
+                            onSettingsTap: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) =>
+                                          const SettingsScreen(),
+                                  transitionDuration: AppTheme.slowAnimation,
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1.0, 0.0),
+                                        end: Offset.zero,
+                                      ).animate(
+                                        CurvedAnimation(
+                                          parent: animation,
+                                          curve: AppTheme.softCurve,
+                                        ),
+                                      ),
+                                      child: FadeTransition(
+                                        opacity: animation,
+                                        child: child,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
                           );
                         },
                       ),

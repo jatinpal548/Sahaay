@@ -8,7 +8,7 @@ import 'package:sahaay/providers/stress_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Set system UI overlay style for a clean look
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -17,7 +17,7 @@ void main() {
       systemNavigationBarColor: Colors.transparent,
     ),
   );
-  
+
   runApp(const SahaayApp());
 }
 

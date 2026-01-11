@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sahaay/services/gemini_service.dart';
 
 class StressProvider extends ChangeNotifier {
-  int _stressLevel = 0;
+  int _stressLevel = 5; // Default to middle stress level
   String _aiLine = "";
-  String _profileName = "Anonymous";
+  String _profileName = "Focused Fox 🦊"; // Default profile for level 5
 
   int get stressLevel => _stressLevel;
   int get currentStressLevel => _stressLevel;
@@ -15,6 +15,7 @@ class StressProvider extends ChangeNotifier {
   void updateStressLevelSync(int level) {
     _stressLevel = level.clamp(1, 10);
 
+    // Update profile based on stress level
     if (_stressLevel <= 3) {
       _profileName = "Calm Panda 🐼";
     } else if (_stressLevel <= 6) {
@@ -48,12 +49,13 @@ Generate a brief, empathetic, one-sentence message (maximum 20 words) that ackno
   }
 
   void updateStress(int level, String line) {
-    _stressLevel = level;
+    _stressLevel = level.clamp(1, 10); // Ensure valid range
     _aiLine = line;
 
-    if (level <= 3) {
+    // Update profile based on stress level
+    if (_stressLevel <= 3) {
       _profileName = "Calm Panda 🐼";
-    } else if (level <= 6) {
+    } else if (_stressLevel <= 6) {
       _profileName = "Focused Fox 🦊";
     } else {
       _profileName = "Brave Lion 🦁";
